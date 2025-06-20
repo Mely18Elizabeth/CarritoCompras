@@ -7,16 +7,24 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class CarritoServeImpl implements CarritoService {
+public class CarritoServiceImpl implements CarritoService {
 
     private final List<ItemCarrito> items;
 
-    public CarritoServeImpl() {
+    public CarritoServiceImpl() {
         items = new ArrayList<>();
     }
 
     @Override
     public void agregarProducto(Producto producto, int cantidad) {
+        // Si ya existe el producto, sumamos cantidad
+        for (ItemCarrito item : items) {
+            if (item.getProducto().getCodigo() == producto.getCodigo()) {
+                item.setCantidad(item.getCantidad() + cantidad);
+                return;
+            }
+        }
+        // Si no existe, agregamos nuevo
         items.add(new ItemCarrito(producto, cantidad));
     }
 
